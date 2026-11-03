@@ -63,7 +63,15 @@ export default async function breezePlugin() {
       async usage(getAuth) {
         try {
           const auth = await getAuth()
-          return await breezeBalance(auth?.key)
+          const usage = await breezeBalance(auth?.key)
+          if (Array.isArray(usage.windows) && usage.windows.length > 0) {
+            usage.windows.push({
+              name: '每日积分',
+              display: '每日 400 免费积分需在 breezeblue.ai/app 手动领取',
+              aside: true,
+            })
+          }
+          return usage
         } catch (error) {
           return {
             plan: BALANCE_PLAN,
