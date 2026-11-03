@@ -402,7 +402,7 @@ test('auth.loader 返回 baseURL 并注入 Breeze fetch', async () => {
   }
 })
 
-test('auth.usage 用 Breeze 余额生成 DeepSeek 风格的 balance', async () => {
+test('auth.usage 用 Breeze 余额生成 Magpie window，并提示每日积分手动领取', async () => {
   const original = globalThis.fetch
   const fake = recorder(() => jsonResponse({ balance: 1635.6, settlement_pending: false }))
   globalThis.fetch = fake.fetch
@@ -412,7 +412,10 @@ test('auth.usage 用 Breeze 余额生成 DeepSeek 风格的 balance', async () =
 
     assert.deepEqual(usage, {
       plan: BALANCE_PLAN,
-      balance: '1,635.6 积分',
+      windows: [
+        { name: BALANCE_NAME, balance: 1635.6, unit: BALANCE_UNIT },
+        { name: '每日积分', display: '每日 400 免费积分需在 breezeblue.ai/app 手动领取', aside: true },
+      ],
     })
     assert.equal(fake.calls[0].url, `${BREEZE_BASE_URL}/balance`)
     assert.equal(fake.calls[0].init.headers['xi-api-key'], 'brz_usage_key')

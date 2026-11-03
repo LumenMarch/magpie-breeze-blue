@@ -59,24 +59,19 @@ export default async function breezePlugin() {
         }
       },
 
-      // 余额只用于 Magpie 的 provider 卡片/usage；按 DeepSeek 的 balance-only 方式显示。
+      // 余额只用于 Magpie 的 provider 卡片/usage；任何失败都变成 error 文本。
       async usage(getAuth) {
         try {
           const auth = await getAuth()
           const usage = await breezeBalance(auth?.key)
-          const wallet = Array.isArray(usage.windows) ? usage.windows[0] : null
-          if (!wallet) {
-            return {
-              plan: BALANCE_PLAN,
-              windows: [],
-              ...(usage.error ? { error: usage.error } : {}),
-            }
+          if (Array.isArray(usage.windows) && usage.windows.length > 0) {
+            usage.windows.push({
+              name: '每日积分',
+              display: '每日 400 免费积分需在 breezeblue.ai/app 手动领取',
+              aside: true,
+            })
           }
-          const amount = new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 }).format(wallet.balance)
-          return {
-            plan: BALANCE_PLAN,
-            balance: `${amount} ${wallet.unit}`,
-          }
+          return usage
         } catch (error) {
           return {
             plan: BALANCE_PLAN,
