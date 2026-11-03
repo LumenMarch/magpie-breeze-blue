@@ -414,7 +414,7 @@ test('auth.usage 用 Breeze 余额生成 Magpie window，并提示每日积分�
       plan: BALANCE_PLAN,
       windows: [
         { name: BALANCE_NAME, balance: 1635.6, unit: BALANCE_UNIT },
-        { name: '每日积分', display: '每日 400 免费积分需在 breezeblue.ai/app 手动领取', aside: true },
+        { name: '每日积分', display: '免费积分需在 breezeblue.ai/app 手动领取', aside: true },
       ],
     })
     assert.equal(fake.calls[0].url, `${BREEZE_BASE_URL}/balance`)

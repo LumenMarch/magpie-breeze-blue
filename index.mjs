@@ -67,7 +67,7 @@ export default async function breezePlugin() {
           if (Array.isArray(usage.windows) && usage.windows.length > 0) {
             usage.windows.push({
               name: '每日积分',
-              display: '每日 400 免费积分需在 breezeblue.ai/app 手动领取',
+              display: '免费积分需在 breezeblue.ai/app 手动领取',
               aside: true,
             })
           }

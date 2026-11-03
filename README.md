@@ -108,7 +108,7 @@ Breeze 返回 `{code, detail, error}` 时，插件保留 HTTP 状态，并转换
 
 `settlement_pending` 为 `true` 时，窗口会带上 `aside: true`，避免路由把它当作会立即耗尽账户的额度。查询失败时返回 `windows: []` 和 `error` 文本，不会把异常抛到 Magpie 外层。
 
-余额只显示在 Magpie 的 provider 卡片/usage 中。用量卡片还会显示一行「每日 400 免费积分需在 breezeblue.ai/app 手动领取」的提示。
+余额只显示在 Magpie 的 provider 卡片/usage 中。用量卡片还会显示一行「免费积分需在 breezeblue.ai/app 手动领取」的提示。
 
 ## 5. 网络与安全
 
