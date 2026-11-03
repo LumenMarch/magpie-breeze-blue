@@ -97,18 +97,18 @@ Breeze 返回 `{code, detail, error}` 时，插件保留 HTTP 状态，并转换
 
 ## 4. 余额
 
-`auth.usage` 会请求 Breeze `GET /v1/balance`，并返回 Magpie 的 wallet window：
+`auth.usage` 会请求 Breeze `GET /v1/balance`，并按 DeepSeek 的 balance-only 方式显示：
 
 ```js
 {
   plan: 'BreezeBlue',
-  windows: [{ name: '余额', balance: 1635.6, unit: '积分' }]
+  balance: '1,635.6 积分'
 }
 ```
 
-`settlement_pending` 为 `true` 时，窗口会带上 `aside: true`，避免路由把它当作会立即耗尽账户的额度。查询失败时返回 `windows: []` 和 `error` 文本，不会把异常抛到 Magpie 外层。
+查询失败时返回 `windows: []` 和 `error` 文本，不会把异常抛到 Magpie 外层。
 
-余额只显示在 Magpie 的 provider 卡片/usage 中。用量卡片还会显示一行「每日 400 免费积分需在 breezeblue.ai/app 手动领取」的提示。
+余额只显示在 Magpie 的 provider 卡片/usage 中；每日免费积分仍需到 `breezeblue.ai/app` 手动领取。
 
 ## 5. 网络与安全
 

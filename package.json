@@ -1,6 +1,6 @@
 {
   "name": "magpie-breeze-blue",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Breeze Blue text-to-speech provider plugin for Magpie",
   "type": "module",
   "main": "./index.mjs",
