@@ -1,6 +1,6 @@
 {
   "name": "magpie-breeze-blue",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Breeze Blue text-to-speech provider plugin for Magpie",
   "type": "module",
   "main": "./index.mjs",
@@ -8,6 +8,10 @@
     "index.mjs",
     "lib/",
     "README.md",
+    "README.zh-CN.md",
+    "README.zh-TW.md",
+    "README.ja.md",
+    "README.de.md",
     "LICENSE"
   ],
   "license": "MIT",
