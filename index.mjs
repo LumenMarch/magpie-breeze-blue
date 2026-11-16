@@ -13,6 +13,9 @@ const MODEL_ID = 'breeze-tts-2'
 function modelDeclaration() {
   return {
     name: 'Breeze TTS 2',
+    // config 里的模型由 Magpie 从 modalities 生成 capabilities；capabilities 只留给
+    // provider.models 没有 provider 参数时的兜底返回值。
+    modalities: { input: ['text'], output: ['audio'] },
     capabilities: { input: { text: true }, output: { audio: true } },
     limit: { context: 1000, output: 0 },
     tool_call: false,
@@ -42,7 +45,17 @@ export default async function breezePlugin() {
 
     auth: {
       provider: PROVIDER_ID,
-      methods: [{ type: 'api', label: 'Breeze API key', placeholder: 'brz_…' }],
+      methods: [{
+        type: 'api',
+        label: 'Breeze API key',
+        labels: {
+          zh: 'Breeze API 密钥',
+          'zh-TW': 'Breeze API 金鑰',
+          ja: 'Breeze API キー',
+          de: 'Breeze-API-Schlüssel',
+        },
+        placeholder: 'brz_…',
+      }],
 
       async loader(getAuth) {
         let auth
@@ -66,8 +79,8 @@ export default async function breezePlugin() {
           const usage = await breezeBalance(auth?.key)
           if (Array.isArray(usage.windows) && usage.windows.length > 0) {
             usage.windows.push({
-              name: '每日积分',
-              display: '在 breezeblue.ai/app 手动领取',
+              name: 'Manual',
+              display: 'breezeblue.ai/app',
               aside: true,
             })
           }

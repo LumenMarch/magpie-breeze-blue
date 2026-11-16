@@ -6,7 +6,8 @@
 
 - provider id：`breeze`
 - 显示名：`BreezeBlue`
-- 模型：`breeze-tts-2`（显示名 `Breeze TTS 2`）
+- 模型：`breeze-tts-2`（显示名 `Breeze TTS 2`，输入 `text`、输出 `audio`）
+- 界面文案：`en` / `zh` / `zh-TW` / `ja` / `de`，其他语言回退英文
 - 联网目标只有 `https://api.breeze.blue`
 - 图标：`magpie.icon` 指向 BreezeBlue 官方 `https://breezeblue.ai/favicon.png`，不打包进本项目；图标版权归 BreezeBlue，如官方不希望第三方使用，可删除该字段或换回自绘图标。
 
@@ -24,7 +25,7 @@ magpie plugin login breeze
 
 ## 3. 使用 `/v1/audio/speech`
 
-Magpie 网关默认监听 `http://127.0.0.1:3425`。请求体与 OpenAI TTS 一致：
+Magpie 网关默认监听 `http://127.0.0.1:3425`。`breeze/breeze-tts-2` 声明为 audio-only，因此不会出现在 `/v1/models` 或 Magpie 的聊天模型选择器中；`/v1/audio/speech` 仍会按 `provider/model` 直接解析它。请求体与 OpenAI TTS 一致：
 
 ```json
 {
@@ -102,13 +103,19 @@ Breeze 返回 `{code, detail, error}` 时，插件保留 HTTP 状态，并转换
 ```js
 {
   plan: 'BreezeBlue',
-  windows: [{ name: '余额', balance: 1635.6, unit: '积分' }]
+  windows: [{ name: 'Balance', balance: 1635.6, unit: 'Credits' }]
 }
 ```
 
 `settlement_pending` 为 `true` 时，窗口会带上 `aside: true`，避免路由把它当作会立即耗尽账户的额度。查询失败时返回 `windows: []` 和 `error` 文本，不会把异常抛到 Magpie 外层。
 
-余额只显示在 Magpie 的 provider 卡片/usage 中。用量卡片还会显示一行「在 breezeblue.ai/app 手动领取」的提示。
+余额只显示在 Magpie 的 provider 卡片/usage 中。用量卡片还会显示每日积分窗口，指向 `breezeblue.ai/app` 手动领取。
+
+### 4.1 界面多语言
+
+- `Balance`、`Credits`、`Manual` 使用 Magpie 的英文规范名，Magpie 界面会按当前语言翻译；`display` 保持语言中立的 URL。
+- `auth.methods[].labels` 提供 `zh`、`zh-TW`、`ja`、`de` 的登录文案，其他语言回退 `label` 的英文。
+- `magpie.summary` 提供 `en`、`zh`、`ja`、`de` 的插件简介；Magpie 的 Discover 卡片按两位语言码取用，`zh-TW` 会回退到 `zh`。
 
 ## 5. 网络与安全
 
@@ -120,7 +127,7 @@ Breeze 返回 `{code, detail, error}` 时，插件保留 HTTP 状态，并转换
 
 ## 6. 兼容性
 
-需要支持 provider 插件与 `/v1/audio/speech` 的 Magpie 版本。开发时参考 Magpie `0.1.2800` 的插件接口（`config` / `auth.loader` / `auth.usage` / `provider.models`）；更低版本未验证。
+开发与验证基于 Magpie `0.1.4280` 的插件接口（`config` / `auth.loader` / `auth.usage` / `provider.models`）；更低版本未验证。
 
 测试运行器需要 Node.js 18 或更高版本；插件本身运行在 Magpie 的插件宿主中。
 

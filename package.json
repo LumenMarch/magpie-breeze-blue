@@ -1,6 +1,6 @@
 {
   "name": "magpie-breeze-blue",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Breeze Blue text-to-speech provider plugin for Magpie",
   "type": "module",
   "main": "./index.mjs",
@@ -28,6 +28,12 @@
   ],
   "magpie": {
     "name": "BreezeBlue",
-    "icon": "https://breezeblue.ai/favicon.png"
+    "icon": "https://breezeblue.ai/favicon.png",
+    "summary": {
+      "en": "Breeze Blue text-to-speech provider for Magpie",
+      "zh": "Magpie 的 Breeze Blue 文字转语音供应商",
+      "ja": "Magpie 用 Breeze Blue 音声合成プロバイダー",
+      "de": "Breeze-Blue-Text-to-Speech-Anbieter für Magpie"
+    }
   }
 }

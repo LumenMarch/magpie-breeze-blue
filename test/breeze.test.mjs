@@ -269,6 +269,11 @@ test('createBreezeSpeechFetch 只转发 POST /audio/speech', async () => {
   assert.equal(fake.calls.length, 1)
 })
 
+test('余额窗口名和单位使用 Magpie 的英文规范名', () => {
+  assert.equal(BALANCE_NAME, 'Balance')
+  assert.equal(BALANCE_UNIT, 'Credits')
+})
+
 test('breezeBalance 返回 Magpie wallet window', async () => {
   const fake = recorder(() => jsonResponse({
     balance: 1635.6,
@@ -345,12 +350,28 @@ test('插件 config 声明 breeze provider 和 audio 模型', async () => {
 
   const model = provider.models['breeze-tts-2']
   assert.equal(model.name, 'Breeze TTS 2')
+  assert.deepEqual(model.modalities, { input: ['text'], output: ['audio'] })
   assert.deepEqual(model.capabilities, { input: { text: true }, output: { audio: true } })
   assert.deepEqual(model.limit, { context: 1000, output: 0 })
   assert.equal(model.tool_call, false)
 
   assert.equal(hooks.provider.id, 'breeze')
   assert.equal(await hooks.provider.models({ models: provider.models }), provider.models)
+
+  const method = hooks.auth.methods[0]
+  assert.equal(method.label, 'Breeze API key')
+  assert.deepEqual(method.labels, {
+    zh: 'Breeze API 密钥',
+    'zh-TW': 'Breeze API 金鑰',
+    ja: 'Breeze API キー',
+    de: 'Breeze-API-Schlüssel',
+  })
+
+  const fallback = await hooks.provider.models()
+  assert.deepEqual(
+    fallback['breeze-tts-2'].capabilities,
+    { input: { text: true }, output: { audio: true } },
+  )
 })
 
 test('插件 config 保留用户已有设置和额外模型', async () => {
@@ -361,8 +382,8 @@ test('插件 config 保留用户已有设置和额外模型', async () => {
   assert.equal(config.provider.breeze.name, 'My Breeze')
   assert.equal(config.provider.breeze.models.extra.name, 'Extra')
   assert.deepEqual(
-    config.provider.breeze.models['breeze-tts-2'].capabilities,
-    { input: { text: true }, output: { audio: true } },
+    config.provider.breeze.models['breeze-tts-2'].modalities,
+    { input: ['text'], output: ['audio'] },
   )
 })
 
@@ -402,7 +423,7 @@ test('auth.loader 返回 baseURL 并注入 Breeze fetch', async () => {
   }
 })
 
-test('auth.usage 用 Breeze 余额生成 Magpie window，并提示每日积分手动领取', async () => {
+test('auth.usage 用 Breeze 余额生成 Magpie window，并提示每日积分入口', async () => {
   const original = globalThis.fetch
   const fake = recorder(() => jsonResponse({ balance: 1635.6, settlement_pending: false }))
   globalThis.fetch = fake.fetch
@@ -414,7 +435,7 @@ test('auth.usage 用 Breeze 余额生成 Magpie window，并提示每日积分�
       plan: BALANCE_PLAN,
       windows: [
         { name: BALANCE_NAME, balance: 1635.6, unit: BALANCE_UNIT },
-        { name: '每日积分', display: '在 breezeblue.ai/app 手动领取', aside: true },
+        { name: 'Manual', display: 'breezeblue.ai/app', aside: true },
       ],
     })
     assert.equal(fake.calls[0].url, `${BREEZE_BASE_URL}/balance`)
