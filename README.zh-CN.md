@@ -2,7 +2,7 @@
 
 ## 1. 这是什么
 
-`magpie-breeze-blue` 是 Magpie 的 Breeze Blue TTS provider 插件。它把 Magpie 网关的 OpenAI 兼容 `POST /v1/audio/speech` 请求转换成 Breeze 官方 `/v1/text-to-speech/{voice_id}` 请求，并通过 `auth.usage` 把 Breeze 余额显示在 Magpie 的 provider 卡片/usage 中。
+`magpie-breeze-blue` 是 Magpie 的 [Breeze Blue](https://breezeblue.ai/) TTS provider 插件。它把 Magpie 网关的 OpenAI 兼容 `POST /v1/audio/speech` 请求转换成 Breeze 官方 [`/v1/text-to-speech/{voice_id}`](https://docs.breezeblue.ai/api-reference/text-to-speech/convert-text-to-speech) 请求，并通过 `auth.usage` 把 Breeze 余额显示在 Magpie 的 provider 卡片/usage 中。
 
 - provider id：`breeze`
 - 显示名：`BreezeBlue`
@@ -22,7 +22,7 @@ magpie plugin add ./            # 本地目录
 magpie plugin login breeze
 ```
 
-登录时填入 Breeze API Key（`brz_…`）。Key 保存在 Magpie 中，不会写进本项目的文件。
+登录时填入 [Breeze API Key](https://docs.breezeblue.ai/authentication)（`brz_…`）。Key 保存在 Magpie 中，不会写进本项目的文件。
 
 ## 3. 使用 `/v1/audio/speech`
 
@@ -39,7 +39,7 @@ Magpie 网关默认监听 `http://127.0.0.1:3425`。`breeze/breeze-tts-2` 声明
 }
 ```
 
-`voice` 必须是 Breeze 账号下的真实音色 ID（`voc_…`），本项目不硬编码任何用户的音色。
+`voice` 必须是 Breeze 账号下的真实[音色 ID](https://docs.breezeblue.ai/api-reference/voices/list-voices)（`voc_…`），本项目不硬编码任何用户的音色。
 
 对应的 `curl`：
 
@@ -99,7 +99,7 @@ Breeze 返回 `{code, detail, error}` 时，插件保留 HTTP 状态，并转换
 
 ## 4. 余额
 
-`auth.usage` 会请求 Breeze `GET /v1/balance`，并返回 Magpie 的 wallet window：
+`auth.usage` 会请求 Breeze [`GET /v1/balance`](https://docs.breezeblue.ai/api-reference/account/get-account-balance)，并返回 Magpie 的 wallet window：
 
 ```js
 {
@@ -110,7 +110,7 @@ Breeze 返回 `{code, detail, error}` 时，插件保留 HTTP 状态，并转换
 
 `settlement_pending` 为 `true` 时，窗口会带上 `aside: true`，避免路由把它当作会立即耗尽账户的额度。查询失败时返回 `windows: []` 和 `error` 文本，不会把异常抛到 Magpie 外层。
 
-余额只显示在 Magpie 的 provider 卡片/usage 中。用量卡片还会显示每日积分窗口，指向 `breezeblue.ai/app` 手动领取。
+余额只显示在 Magpie 的 provider 卡片/usage 中。用量卡片还会显示每日积分窗口，指向 [`breezeblue.ai/app`](https://breezeblue.ai/app) 手动领取。
 
 ### 4.1 界面多语言
 

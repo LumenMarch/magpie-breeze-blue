@@ -2,7 +2,7 @@
 
 ## 1. Was es ist
 
-`magpie-breeze-blue` ist eine Breeze-Blue-TTS-Anbietererweiterung für Magpie. Sie wandelt die OpenAI-kompatiblen `POST /v1/audio/speech`-Anfragen des Magpie-Gateways in Breeze' offizielle `/v1/text-to-speech/{voice_id}`-Anfragen um und zeigt das Breeze-Guthaben über `auth.usage` auf der Anbieterkarte und der Nutzungsseite von Magpie an.
+`magpie-breeze-blue` ist eine [Breeze Blue](https://breezeblue.ai/)-TTS-Anbietererweiterung für Magpie. Sie wandelt die OpenAI-kompatiblen `POST /v1/audio/speech`-Anfragen des Magpie-Gateways in Breeze' offizielle [`/v1/text-to-speech/{voice_id}`](https://docs.breezeblue.ai/api-reference/text-to-speech/convert-text-to-speech)-Anfragen um und zeigt das Breeze-Guthaben über `auth.usage` auf der Anbieterkarte und der Nutzungsseite von Magpie an.
 
 - Provider-ID: `breeze`
 - Anzeigename: `BreezeBlue`
@@ -22,7 +22,7 @@ magpie plugin add ./            # lokaler Ordner
 magpie plugin login breeze
 ```
 
-Bei der Anmeldung den Breeze-API-Schlüssel (`brz_…`) eingeben. Magpie speichert den Schlüssel; in diesem Projekt wird nichts davon geschrieben.
+Bei der Anmeldung den [Breeze-API-Schlüssel](https://docs.breezeblue.ai/authentication) (`brz_…`) eingeben. Magpie speichert den Schlüssel; in diesem Projekt wird nichts davon geschrieben.
 
 ## 3. `/v1/audio/speech` verwenden
 
@@ -39,7 +39,7 @@ Das Magpie-Gateway lauscht standardmäßig auf `http://127.0.0.1:3425`. `breeze/
 }
 ```
 
-`voice` muss eine echte Breeze-Stimm-ID (`voc_…`) im eigenen Konto sein; dieses Projekt enthält keine fest verdrahtete Stimme.
+`voice` muss eine echte [Breeze-Stimm-ID](https://docs.breezeblue.ai/api-reference/voices/list-voices) (`voc_…`) im eigenen Konto sein; dieses Projekt enthält keine fest verdrahtete Stimme.
 
 Das passende `curl`:
 
@@ -99,7 +99,7 @@ Lokale Validierungsfehler ergeben 400; andere Pfade als `/v1/audio/speech` ergeb
 
 ## 4. Guthaben
 
-`auth.usage` ruft `GET /v1/balance` bei Breeze auf und gibt ein Wallet-Fenster für Magpie zurück:
+`auth.usage` ruft [`GET /v1/balance`](https://docs.breezeblue.ai/api-reference/account/get-account-balance) bei Breeze auf und gibt ein Wallet-Fenster für Magpie zurück:
 
 ```js
 {
@@ -110,7 +110,7 @@ Lokale Validierungsfehler ergeben 400; andere Pfade als `/v1/audio/speech` ergeb
 
 Bei `settlement_pending: true` trägt das Fenster `aside: true`, damit das Routing es nicht als sofort aufbrauchbares Kontingent behandelt. Ein fehlgeschlagener Abruf liefert `windows: []` und eine `error`-Zeichenkette; nichts wird an Magpie weitergereicht.
 
-Das Guthaben erscheint nur auf der Anbieterkarte und der Nutzungsseite von Magpie. Die Nutzungskarte zeigt außerdem ein Fenster für tägliche Credits, das auf `breezeblue.ai/app` zum manuellen Abholen verweist.
+Das Guthaben erscheint nur auf der Anbieterkarte und der Nutzungsseite von Magpie. Die Nutzungskarte zeigt außerdem ein Fenster für tägliche Credits, das auf [`breezeblue.ai/app`](https://breezeblue.ai/app) zum manuellen Abholen verweist.
 
 ### 4.1 UI-Sprachen
 

@@ -2,7 +2,7 @@
 
 ## 1. これは何か
 
-`magpie-breeze-blue` は Magpie 用の Breeze Blue TTS プロバイダープラグインです。Magpie ゲートウェイの OpenAI 互換 `POST /v1/audio/speech` リクエストを Breeze 公式の `/v1/text-to-speech/{voice_id}` リクエストに変換し、`auth.usage` で Breeze の残高を Magpie のプロバイダーカード/使用量に表示します。
+`magpie-breeze-blue` は Magpie 用の [Breeze Blue](https://breezeblue.ai/) TTS プロバイダープラグインです。Magpie ゲートウェイの OpenAI 互換 `POST /v1/audio/speech` リクエストを Breeze 公式の [`/v1/text-to-speech/{voice_id}`](https://docs.breezeblue.ai/api-reference/text-to-speech/convert-text-to-speech) リクエストに変換し、`auth.usage` で Breeze の残高を Magpie のプロバイダーカード/使用量に表示します。
 
 - provider id: `breeze`
 - 表示名: `BreezeBlue`
@@ -22,7 +22,7 @@ magpie plugin add ./            # ローカルフォルダー
 magpie plugin login breeze
 ```
 
-ログイン時に Breeze の API キー（`brz_…`）を入力します。キーは Magpie が保持し、本プロジェクトのファイルには書き込まれません。
+ログイン時に Breeze の [API キー](https://docs.breezeblue.ai/authentication)（`brz_…`）を入力します。キーは Magpie が保持し、本プロジェクトのファイルには書き込まれません。
 
 ## 3. `/v1/audio/speech` の使い方
 
@@ -39,7 +39,7 @@ Magpie ゲートウェイは既定で `http://127.0.0.1:3425` を待ち受けま
 }
 ```
 
-`voice` には Breeze アカウントの実際の音声 ID（`voc_…`）を指定してください。本プロジェクトは特定ユーザーの音声をハードコードしません。
+`voice` には Breeze アカウントの実際の[音声 ID](https://docs.breezeblue.ai/api-reference/voices/list-voices)（`voc_…`）を指定してください。本プロジェクトは特定ユーザーの音声をハードコードしません。
 
 対応する `curl`:
 
@@ -99,7 +99,7 @@ Breeze が `{code, detail, error}` を返した場合、プラグインは HTTP 
 
 ## 4. 残高
 
-`auth.usage` は Breeze の `GET /v1/balance` を呼び出し、Magpie の wallet window を返します。
+`auth.usage` は Breeze の [`GET /v1/balance`](https://docs.breezeblue.ai/api-reference/account/get-account-balance) を呼び出し、Magpie の wallet window を返します。
 
 ```js
 {
@@ -110,7 +110,7 @@ Breeze が `{code, detail, error}` を返した場合、プラグインは HTTP 
 
 `settlement_pending` が `true` のとき、ウィンドウには `aside: true` が付き、ルーティングが即座に尽きる枠として扱いません。取得に失敗した場合は `windows: []` と `error` 文字列を返し、例外を Magpie の外側へ投げません。
 
-残高は Magpie のプロバイダーカード/使用量にだけ表示されます。使用量カードには、`breezeblue.ai/app` で手動受け取りが必要なデイリークレジットのウィンドウも表示されます。
+残高は Magpie のプロバイダーカード/使用量にだけ表示されます。使用量カードには、[`breezeblue.ai/app`](https://breezeblue.ai/app) で手動受け取りが必要なデイリークレジットのウィンドウも表示されます。
 
 ### 4.1 UI の多言語対応
 

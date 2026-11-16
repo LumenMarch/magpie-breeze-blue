@@ -2,7 +2,7 @@
 
 ## 1. What it is
 
-`magpie-breeze-blue` is a Breeze Blue TTS provider plugin for Magpie. It turns Magpie gateway's OpenAI-compatible `POST /v1/audio/speech` requests into Breeze's `/v1/text-to-speech/{voice_id}` requests, and shows the Breeze balance on Magpie's provider card and usage through `auth.usage`.
+`magpie-breeze-blue` is a [Breeze Blue](https://breezeblue.ai/) TTS provider plugin for Magpie. It turns Magpie gateway's OpenAI-compatible `POST /v1/audio/speech` requests into Breeze's [`/v1/text-to-speech/{voice_id}`](https://docs.breezeblue.ai/api-reference/text-to-speech/convert-text-to-speech) requests, and shows the Breeze balance on Magpie's provider card and usage through `auth.usage`.
 
 - provider id: `breeze`
 - display name: `BreezeBlue`
@@ -22,7 +22,7 @@ magpie plugin add ./            # local folder
 magpie plugin login breeze
 ```
 
-Enter your Breeze API key (`brz_…`). Magpie keeps the key; nothing is written into this project.
+Enter your [Breeze API key](https://docs.breezeblue.ai/authentication) (`brz_…`). Magpie keeps the key; nothing is written into this project.
 
 ## 3. Using `/v1/audio/speech`
 
@@ -39,7 +39,7 @@ Magpie's gateway listens on `http://127.0.0.1:3425` by default. `breeze/breeze-t
 }
 ```
 
-`voice` must be a real Breeze voice id (`voc_…`) in your account; this project hardcodes no user's voice.
+`voice` must be a real [Breeze voice id](https://docs.breezeblue.ai/api-reference/voices/list-voices) (`voc_…`) in your account; this project hardcodes no user's voice.
 
 The matching `curl`:
 
@@ -99,7 +99,7 @@ Local validation failures return 400; paths other than `/v1/audio/speech` return
 
 ## 4. Balance
 
-`auth.usage` requests Breeze `GET /v1/balance` and returns a Magpie wallet window:
+`auth.usage` requests Breeze [`GET /v1/balance`](https://docs.breezeblue.ai/api-reference/account/get-account-balance) and returns a Magpie wallet window:
 
 ```js
 {
@@ -110,7 +110,7 @@ Local validation failures return 400; paths other than `/v1/audio/speech` return
 
 When `settlement_pending` is `true`, the window carries `aside: true` so routing does not treat it as an allowance that runs out immediately. A failed read returns `windows: []` and an `error` string; nothing is thrown to Magpie.
 
-The balance appears only on Magpie's provider card and usage. The usage card also shows a daily-credits window pointing at `breezeblue.ai/app` for manual claiming.
+The balance appears only on Magpie's provider card and usage. The usage card also shows a daily-credits window pointing at [`breezeblue.ai/app`](https://breezeblue.ai/app) for manual claiming.
 
 ### 4.1 UI languages
 
